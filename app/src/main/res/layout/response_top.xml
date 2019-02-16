@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:id="@+id/imageview"/>
+
+
+
+            <TextView
+                android:id="@+id/res_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_weight="2"
+                android:textColor="@color/design_default_color_primary"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+   <!-- <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1.5">
+
+
+
+       &lt;!&ndash; <TextView
+            android:id="@+id/res_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"/>&ndash;&gt;
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+
+    </LinearLayout>-->
+
+
+
+
+
+
+
+
+   <!-- <TextView
+        android:id="@+id/res_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="by"
+        android:textSize="15sp"
+        android:gravity="end"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/res_publishAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:gravity="end"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"/>-->
+</LinearLayout>
