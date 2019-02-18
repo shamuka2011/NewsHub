@@ -2,6 +2,7 @@ package newshub.news.myapp.com.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class ScienceAdapter  extends RecyclerView.Adapter<ScienceAdapter.ViewHol
     }
 
     private List<ScienceModel> scienceModelList;
+    private ScienceModel model;
 
 
     @NonNull
@@ -33,7 +35,8 @@ public class ScienceAdapter  extends RecyclerView.Adapter<ScienceAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        ScienceModel model = scienceModelList.get(i);
+        Log.d("list size in adapter",""+scienceModelList.size());
+        model = scienceModelList.get(i);
         viewHolder.desc.setText(model.getDescription());
         viewHolder.url.setText(model.getUrl());
     }

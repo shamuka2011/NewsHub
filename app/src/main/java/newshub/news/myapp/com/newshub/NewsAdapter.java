@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -43,6 +44,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.TopViewHolder>
     private AsyncTask mytask;
     private TopViewHolder view;
     Article articleModel ;
+   // private View view;
     public NewsAdapter(List<Article> articleArrayList) {
         this.articleArrayList = articleArrayList;
     }
@@ -73,9 +75,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.TopViewHolder>
        // topViewHolder.publishat.setText(articleModel.getPublishedAt());
        // String imageUrl = articleModel.getUrlToImage();
         String imageUrl = articleArrayList.get(position).getUrlToImage();
-        Log.d("imageurl ",imageUrl);
-        mytask = new DownloadTask().execute(stringToURL(imageUrl));
+       // Log.d("imageurl ",imageUrl);
+       // mytask = new DownloadTask().execute(stringToURL(imageUrl));
         //this.articleModel = articleModel;
+
+
+      //  Picasso.with(context).load(imageUrl).resize(600, 400).fit().error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
+        Picasso.with(context).load(imageUrl).resize(600, 400).error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
+
 
         // topViewHolder.content.setText(articleModel.getContent());
        // topViewHolder.artilceAdapterParentLinear.setTag(articleModel);
@@ -129,6 +136,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.TopViewHolder>
                              intent.putExtra("parcel_data",articleModel);
                              intent.putExtra("desc",articleArrayList.get(position).getDescription());
                             intent.putExtra("urltoimage",articleArrayList.get(position).getUrlToImage());
+                            intent.putExtra("url",articleArrayList.get(position).getUrl());
 
                             Log.d("parcle obj sending",articleModel.toString());
                              mContext.startActivity(intent);

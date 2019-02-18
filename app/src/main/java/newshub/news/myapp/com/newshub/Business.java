@@ -4,9 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.List;
+
+import newshub.news.myapp.com.adapter.BusinessAdapter;
+import newshub.news.myapp.com.model.BusinessModel;
+import newshub.news.myapp.com.model.BusinessResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -22,6 +34,7 @@ public class Business extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String API_KEY ="3fc6be37ed584ba3aef203f2c9269c5d";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -64,7 +77,32 @@ public class Business extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_business, container, false);
+        View view = inflater.inflate(R.layout.fragment_business, container, false);
+        final RequestInterface apireq = ApiClient.getClient().create(RequestInterface.class);
+        final RecyclerView recyclerView = view.findViewById(R.id.businessrecyler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        Call<BusinessResponse> call = apireq.getBusinessNews("business",API_KEY);
+        call.enqueue(new Callback<BusinessResponse>() {
+            @Override
+            public void onResponse(Call<BusinessResponse> call, Response<BusinessResponse> response) {
+                if (response.body().getStatus().equals("ok")) {
+                    List<BusinessModel> models = response.body().getSources();
+                    if (models.size()>0) {
+                        BusinessAdapter adapter = new BusinessAdapter(models);
+                        recyclerView.setAdapter(adapter);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BusinessResponse> call, Throwable t) {
+
+            }
+        });
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -74,7 +112,7 @@ public class Business extends Fragment {
         }
     }
 
-    @Override
+   /* @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -83,7 +121,7 @@ public class Business extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
+    }*/
 
     @Override
     public void onDetach() {

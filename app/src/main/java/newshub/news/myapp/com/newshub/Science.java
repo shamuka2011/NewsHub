@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,7 @@ public class Science extends Fragment {
             public void onResponse(Call<ScienceResponse> call, Response<ScienceResponse> response) {
                 if (response.body().getStatus().equals("ok")) {
                     List<ScienceModel> modelList = response.body().getSources();
+                    Log.d("list size",""+modelList.size());
                     if (modelList.size()>0) {
                         final ScienceAdapter adapter = new ScienceAdapter(modelList);
                         recyclerView.setAdapter(adapter);
@@ -110,7 +112,7 @@ public class Science extends Fragment {
         }
     }
 
-    @Override
+   /* @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -119,7 +121,7 @@ public class Science extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
+    }*/
 
     @Override
     public void onDetach() {

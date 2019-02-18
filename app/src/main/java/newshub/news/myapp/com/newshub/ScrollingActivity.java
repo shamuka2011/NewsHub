@@ -1,9 +1,12 @@
 package newshub.news.myapp.com.newshub;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,19 +25,24 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 
-public class ScrollingActivity extends AppCompatActivity {
+public class ScrollingActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
 
     private Menu menu;
     Article article;
     private AsyncTask asyncTask;
     ImageView imageView;
+    private TextToSpeech textToSpeech;
+    String result;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        intent = getIntent();
 
         article = getIntent().getParcelableExtra("parcel_data");
         Log.d("rcv article bundle",article.getTitle());
@@ -48,7 +56,8 @@ public class ScrollingActivity extends AppCompatActivity {
 
          TextView tv = rootview.findViewById(R.id.desc);
          tv.setText(getIntent().getStringExtra("desc"));
-
+        result = getIntent().getStringExtra("desc");
+        textToSpeech = new TextToSpeech(this,this);
 
          imageView = findViewById(R.id.expandedImage);
         String imageUrl = getIntent().getStringExtra("urltoimage");
@@ -108,8 +117,24 @@ public class ScrollingActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            textToSpeech.speak(this.result,TextToSpeech.QUEUE_FLUSH, null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                textToSpeech.speak(this.result,TextToSpeech.QUEUE_FLUSH,null,null);
+            } else {
+                textToSpeech.speak(this.result, TextToSpeech.QUEUE_FLUSH, null);
+            }
             return true;
-        } else if (id == R.id.action_info) {
+        } else if (id == R.id.action_share) {
+            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+            // Add data to the intent, the receiving app will decide
+            // what to do with it.
+            share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
+            share.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("utl"));
+
+            startActivity(Intent.createChooser(share, "Share link!"));
             return true;
         }
 
@@ -126,7 +151,35 @@ public class ScrollingActivity extends AppCompatActivity {
         item.setVisible(true);
     }
 
+    @Override
+    public void onInit(int status) {
 
+        if (status == TextToSpeech.SUCCESS) {
+
+            int result = textToSpeech.setLanguage(Locale.US);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            } else {
+              // textToSpeech.speak(this.result,TextToSpeech.QUEUE_FLUSH, null);
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        // Don't forget to shutdown tts!
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onDestroy();
+    }
 
 
     public class DownloadTask extends AsyncTask<URL,Void,Bitmap> {

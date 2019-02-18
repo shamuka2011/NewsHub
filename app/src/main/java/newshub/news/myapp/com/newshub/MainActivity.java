@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment = null;
         switch(menuItem.getItemId()) {
-            case R.id.local:
+           /* case R.id.local:
                 fragment = new Local_fragment();
-                break;
+                break;*/
             case R.id.india:
                 //fragment = new SevenKingdomsFragment();
-                fragment = new Latest_Fragment();
+                fragment = new TopFragment();
                 break;
             case R.id.world:
                 // fragment = new CharactersFragment();
@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.science:
                 fragment = new Science();
+                break;
+            case R.id.bussiness:
+                fragment = new Business();
                 break;
 
 

@@ -8,6 +8,7 @@
     <string name="text_local">Local</string>
     <string name="text_world">World</string>
     <string name="text_entertainment">Entertainment</string>
+    <string name="text_business">Business</string>
     <string name="text_health">Health</string>
     <string name="text_science">Science</string>
     <string name="text_sports">Sports</string>
@@ -105,7 +106,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Speak Out</string>
+
 
 
 </resources>

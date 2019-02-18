@@ -2,6 +2,7 @@ package newshub.news.myapp.com.newshub;
 
 import java.util.List;
 
+import newshub.news.myapp.com.model.BusinessResponse;
 import newshub.news.myapp.com.model.EntertainmentResponse;
 import newshub.news.myapp.com.model.GeneralModel;
 import newshub.news.myapp.com.model.GeneralResponse;
@@ -36,6 +37,9 @@ public interface RequestInterface {
 
     @GET("sources")
     Call<ScienceResponse> getScienceNews(@Query("category") String category, @Query("apiKey") String apiKey );
+
+    @GET("sources")
+    Call<BusinessResponse> getBusinessNews(@Query("category") String category, @Query("apiKey") String apiKey );
 
 
 

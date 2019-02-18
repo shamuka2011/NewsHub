@@ -150,11 +150,11 @@ public class TabFragment extends Fragment {
                 case 0: return new TopFragment();
                 case 1: return  new Latest_Fragment();
                 case 2: return new Local_fragment();
-                case 3: return new Local_fragment();
-                case 4: return new Local_fragment();
-                case 5: return new Local_fragment();
+                case 3: return new TopFragment();
+                case 4: return new Technology();
+                case 5: return new SprtsFragment();
                 case 6: return new Local_fragment();
-                case 7: return new Local_fragment();
+                case 7: return new Business();
             }
             return null;
         }
