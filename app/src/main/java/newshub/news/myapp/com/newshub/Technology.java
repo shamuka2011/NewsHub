@@ -83,13 +83,13 @@ public class Technology extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.techrecyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        Call<TechResponse> call = apireq.getTechnicalNews("technology",API_KEY);
+        Call<ResponseModel> call = apireq.getTechnicalNews("technology",API_KEY);
 
-        call.enqueue(new Callback<TechResponse>() {
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<TechResponse> call, retrofit2.Response<TechResponse> response) {
+            public void onResponse(Call<ResponseModel> call, retrofit2.Response<ResponseModel> response) {
                 if (response.body().getStatus().equals("ok")){
-                    List<Sources> articleList = response.body().getSourcesList();
+                    List<Article> articleList = response.body().getArticles();
                     // Log.d("response =",response.body().getSourcesList().toString());
                     if (articleList.size() >0) {
                         Log.d("response size =",""+articleList.size());
@@ -100,7 +100,7 @@ public class Technology extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<TechResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
                 Log.e("out", t.toString());
             }
         });

@@ -83,12 +83,12 @@ public class Science extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.sciencerecyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        Call<ScienceResponse> call = apireq.getScienceNews("science",API_KEY);
-        call.enqueue(new Callback<ScienceResponse>() {
+        Call<ResponseModel> call = apireq.getScienceNews("science",API_KEY);
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<ScienceResponse> call, Response<ScienceResponse> response) {
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if (response.body().getStatus().equals("ok")) {
-                    List<ScienceModel> modelList = response.body().getSources();
+                    List<Article> modelList = response.body().getArticles();
                     Log.d("list size",""+modelList.size());
                     if (modelList.size()>0) {
                         final ScienceAdapter adapter = new ScienceAdapter(modelList);
@@ -98,7 +98,7 @@ public class Science extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ScienceResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
 
             }
         });

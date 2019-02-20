@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import newshub.news.myapp.com.adapter.BusinessAdapter;
-import newshub.news.myapp.com.model.BusinessModel;
-import newshub.news.myapp.com.model.BusinessResponse;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -82,12 +81,12 @@ public class Business extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.businessrecyler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        Call<BusinessResponse> call = apireq.getBusinessNews("business",API_KEY);
-        call.enqueue(new Callback<BusinessResponse>() {
+        Call<ResponseModel> call = apireq.getBusinessNews("business",API_KEY);
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<BusinessResponse> call, Response<BusinessResponse> response) {
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if (response.body().getStatus().equals("ok")) {
-                    List<BusinessModel> models = response.body().getSources();
+                    List<Article> models = response.body().getArticles();
                     if (models.size()>0) {
                         BusinessAdapter adapter = new BusinessAdapter(models);
                         recyclerView.setAdapter(adapter);
@@ -96,7 +95,7 @@ public class Business extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<BusinessResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
 
             }
         });

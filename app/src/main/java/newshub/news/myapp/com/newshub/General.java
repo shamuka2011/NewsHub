@@ -16,7 +16,6 @@ import java.util.List;
 import newshub.news.myapp.com.adapter.GeneralAdapter;
 import newshub.news.myapp.com.model.GeneralModel;
 import newshub.news.myapp.com.model.GeneralResponse;
-import newshub.news.myapp.com.model.SportsResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

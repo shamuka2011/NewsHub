@@ -44,8 +44,8 @@ public class ScrollingActivity extends AppCompatActivity implements TextToSpeech
 
         intent = getIntent();
 
-        article = getIntent().getParcelableExtra("parcel_data");
-        Log.d("rcv article bundle",article.getTitle());
+        /*article = getIntent().getParcelableExtra("parcel_data");
+        Log.d("rcv article bundle",article.getTitle());*/
 
        // tv.setText(article.getDescription());
         setContentView(R.layout.activity_scrolling);
@@ -55,12 +55,14 @@ public class ScrollingActivity extends AppCompatActivity implements TextToSpeech
         View rootview = findViewById(R.id.includelayout);
 
          TextView tv = rootview.findViewById(R.id.desc);
-         tv.setText(getIntent().getStringExtra("desc"));
+         tv.setText(getIntent().getStringExtra("title")+ "\n\n"+getIntent().getStringExtra("desc") + "\n\n" +getIntent().getStringExtra("content"));
         result = getIntent().getStringExtra("desc");
         textToSpeech = new TextToSpeech(this,this);
 
          imageView = findViewById(R.id.expandedImage);
         String imageUrl = getIntent().getStringExtra("urltoimage");
+
+
 
         asyncTask = new DownloadTask().execute(stringToURL(imageUrl));
 

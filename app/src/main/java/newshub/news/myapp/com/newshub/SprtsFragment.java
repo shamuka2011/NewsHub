@@ -16,8 +16,6 @@ import java.util.List;
 
 import newshub.news.myapp.com.adapter.SportsNewsAdapter;
 import newshub.news.myapp.com.adapter.TechNewsAdapter;
-import newshub.news.myapp.com.model.SportsModel;
-import newshub.news.myapp.com.model.SportsResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -47,13 +45,13 @@ public class SprtsFragment extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.sportsrecyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        Call<SportsResponse> call = apireq.getSportsNews("sports",API_KEY);
+        Call<ResponseModel> call = apireq.getSportsNews("sports",API_KEY);
 
-        call.enqueue(new Callback<SportsResponse>() {
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<SportsResponse> call, retrofit2.Response<SportsResponse> response) {
+            public void onResponse(Call<ResponseModel> call, retrofit2.Response<ResponseModel> response) {
                 if (response.body().getStatus().equals("ok")){
-                    List<SportsModel> articleList = response.body().getSources();
+                    List<Article> articleList = response.body().getArticles();
                     // Log.d("response =",response.body().getSourcesList().toString());
                     if (articleList.size() >0) {
                         Log.d("response size =",""+articleList.size());
@@ -64,7 +62,7 @@ public class SprtsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<SportsResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
                 Log.e("out", t.toString());
             }
         });

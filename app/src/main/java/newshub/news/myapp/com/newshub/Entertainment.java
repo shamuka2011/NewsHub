@@ -84,12 +84,12 @@ public class Entertainment extends Fragment {
         final RecyclerView recyclerView = view.findViewById(R.id.entertainmentrecyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        final Call<EntertainmentResponse> call = apireq.getEntertainmentNews("entertainment",API_KEY);
-        call.enqueue(new Callback<EntertainmentResponse>() {
+        final Call<ResponseModel> call = apireq.getEntertainmentNews("entertainment",API_KEY);
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
-            public void onResponse(Call<EntertainmentResponse> call, Response<EntertainmentResponse> response) {
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 if (response.body().getStatus().equals("ok")) {
-                    List<EntertainmentModel> models = response.body().getSources();
+                    List<Article> models = response.body().getArticles();
                     if (models.size()>0) {
                         EntertainmentAdapter adapter = new EntertainmentAdapter(models);
                         recyclerView.setAdapter(adapter);
@@ -98,7 +98,7 @@ public class Entertainment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<EntertainmentResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
 
             }
         });

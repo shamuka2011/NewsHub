@@ -36,6 +36,16 @@ public class Article implements Parcelable {
     private String urlToImage;
     @SerializedName("publishedAt")
     private String publishedAt;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    private String content;
     public SourceModel getSource() {
         return source;
     }

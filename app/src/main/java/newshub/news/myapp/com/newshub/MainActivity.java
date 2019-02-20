@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bussiness:
                 fragment = new Business();
                 break;
+            case R.id.health:
+                fragment = new Health();
+                break;
 
 
 

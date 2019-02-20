@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import newshub.news.myapp.com.interfaceclasses.EndlessRecyclerViewScrollListener;
 import retrofit2.*;
 
 
@@ -31,11 +32,15 @@ public class TopFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String API_KEY ="3fc6be37ed584ba3aef203f2c9269c5d";
+    boolean isLoading = false;
+    // Store a member variable for the listener
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private RequestInterface apireq ;
+    private RecyclerView recyclerView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,10 +79,13 @@ public class TopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_top, container, false);
-        final RequestInterface apireq = ApiClient.getClient().create(RequestInterface.class);
-        final RecyclerView recyclerView = rootview.findViewById(R.id.toprecyclerview);
+        apireq = ApiClient.getClient().create(RequestInterface.class);
+        recyclerView = rootview.findViewById(R.id.toprecyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
+
+
         Call<ResponseModel> call = apireq.getLatestNews("in",API_KEY);
 
         call.enqueue(new Callback<ResponseModel>() {
@@ -109,6 +117,8 @@ public class TopFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
    /* @Override
     public void onAttach(Context context) {
