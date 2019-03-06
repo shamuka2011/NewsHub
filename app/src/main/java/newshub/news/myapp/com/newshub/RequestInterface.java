@@ -20,7 +20,14 @@ public interface RequestInterface {
     String BASE_URL = "https://newsapi.org/v2/";
 
     @GET("top-headlines")
-    Call<ResponseModel> getLatestNews(@Query("country") String source ,@Query("apiKey") String apiKey);
+    Call<ResponseModel> getLatestNews(@Query("country") String country,@Query("page") int page ,@Query("apiKey") String apiKey);
+
+    @GET("top-headlines")
+    Call<ResponseModel> getLatestNewsBySources(@Query("sources") String sources,@Query("page") int page ,@Query("apiKey") String apiKey);
+
+    @GET("top-headlines")
+    Call<ResponseModel> getIndianNews(@Query("country") String country,@Query("apiKey") String apiKey);
+
 
     @GET("top-headlines")
     Call<ResponseModel> getTechnicalNews(@Query("category") String category, @Query("apiKey") String apiKey );
@@ -42,6 +49,9 @@ public interface RequestInterface {
 
     @GET("top-headlines")
     Call<ResponseModel> getBusinessNews(@Query("category") String category, @Query("apiKey") String apiKey );
+
+    @GET("top-headlines")
+    Call<ResponseModel> getSearchNews(@Query("q") String keyword, @Query("apiKey") String apiKey );
 
 
 

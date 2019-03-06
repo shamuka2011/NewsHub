@@ -36,5 +36,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.android.support:recyclerview-v7:28.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
     testCompile 'junit:junit:4.12'
 }

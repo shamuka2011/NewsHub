@@ -33,7 +33,7 @@ public class TabFragment extends Fragment {
 
     private static ViewPager viewPager;
     private static  TabLayout tabLayout;
-    public static int int_items = 8;
+    public static int int_items = 6;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -148,13 +148,13 @@ public class TabFragment extends Fragment {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0: return new TopFragment();
-                case 1: return  new Latest_Fragment();
-                case 2: return new Local_fragment();
-                case 3: return new TopFragment();
-                case 4: return new Technology();
-                case 5: return new SprtsFragment();
-                case 6: return new Local_fragment();
-                case 7: return new Business();
+               /* case 1: return  new Latest_Fragment();
+                case 2: return new Local_fragment();*/
+                case 1: return new IndiaNews();
+                case 2: return new Technology();
+                case 3: return new SprtsFragment();
+                case 4: return new Local_fragment();
+                case 5: return new Business();
             }
             return null;
         }
@@ -172,19 +172,19 @@ public class TabFragment extends Fragment {
             switch (position){
                 case 0 :
                     return "TOP";
-                case 1 :
+               /* case 1 :
                     return "lATEST";
                 case 2:
-                    return "lOCAL";
-                case 3:
+                    return "lOCAL";*/
+                case 1:
                     return "India";
-                case 4:
+                case 2:
                     return "Technology";
-                case 5:
+                case 3:
                     return "sports";
-                case 6:
+                case 4:
                     return "World";
-                case 7:
+                case 5:
                     return "Bussiness";
             }
             return null;

@@ -10,6 +10,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -127,7 +128,7 @@ public class ScrollingActivity extends AppCompatActivity implements TextToSpeech
             }
             return true;
         } else if (id == R.id.action_share) {
-            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+            /*Intent share = new Intent(android.content.Intent.ACTION_SEND);
             share.setType("text/plain");
             share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
@@ -136,7 +137,9 @@ public class ScrollingActivity extends AppCompatActivity implements TextToSpeech
             share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
             share.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("utl"));
 
-            startActivity(Intent.createChooser(share, "Share link!"));
+            startActivity(Intent.createChooser(share, "Share link!"));*/
+            MenuItem searchMenuItem = menu.findItem(R.id.action_share);
+            MenuItemCompat.expandActionView(searchMenuItem);
             return true;
         }
 

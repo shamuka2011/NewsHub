@@ -10,6 +10,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Article implements Parcelable {
+    public Article(){
+
+    }
 
     public Article( String author, String title, String description, String url, String urlToImage, String publishedAt) {
         //this.source = source;

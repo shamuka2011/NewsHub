@@ -28,24 +28,33 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Sweety on 07-02-2019.
  */
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.TopViewHolder>  {
+public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
 
-
+    private static final int ITEM = 0;
+    private static final int LOADING = 1;
     private Context context;
     private ImageView imageView;
+
+    public List<Article> getArticleArrayList() {
+        return articleArrayList;
+    }
+
+    public void setArticleArrayList(List<Article> articleArrayList) {
+        this.articleArrayList = articleArrayList;
+    }
+
     private List<Article> articleArrayList;
-    private AsyncTask mytask;
     private TopViewHolder view;
     Article articleModel ;
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
+    private boolean isLoadingAdded = false;
     // private View view;
     public NewsAdapter(List<Article> articleArrayList) {
         this.articleArrayList = articleArrayList;
@@ -54,65 +63,163 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.TopViewHolder>
 
     public NewsAdapter(Context context) {
         this.context = context;
+        this.articleArrayList = new ArrayList<>();
     }
     //private OnRecyclerViewItemClickListener onRecyclerViewItemClickListener;
 
 
-    @NonNull
     @Override
-    public NewsAdapter.TopViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         context = viewGroup.getContext();
-        View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.response_top, viewGroup, false);
+        RecyclerView.ViewHolder viewHolder = null;
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+        /*View itemView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.response_top, viewGroup, false);*/
+        switch (viewType) {
+            case ITEM:
+                viewHolder = getViewHolder(viewGroup, layoutInflater);
+                break;
+            case LOADING:
+                View view1 = layoutInflater.inflate(R.layout.item_progress,viewGroup,false);
+                viewHolder = new LoadingVH(view1);
+                break;
+        }
 
-        return new TopViewHolder(itemView);
+        return viewHolder;
     }
 
     @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        articleModel = articleArrayList.get(position);
+        switch (getItemViewType(position)) {
+            case ITEM:
+                final TopViewHolder topViewHolder = (TopViewHolder) viewHolder;
+                topViewHolder.title.setText(articleModel.getTitle());
+                //  topViewHolder.desc.setText(articleModel.getDescription());
+                // topViewHolder.author.setText("by "+articleModel.getAuthor());
+                // topViewHolder.publishat.setText(articleModel.getPublishedAt());
+                // String imageUrl = articleModel.getUrlToImage();
+                String imageUrl = articleArrayList.get(position).getUrlToImage();
+
+
+
+                //  Picasso.with(context).load(imageUrl).resize(600, 400).fit().error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
+                Picasso.with(context).load(imageUrl).resize(1000, 400).error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(topViewHolder.imageView);
+
+                break;
+            case LOADING:
+                //do nothing
+                break;
+        }
+    }
+
+
+    @NonNull
+    private RecyclerView.ViewHolder getViewHolder(ViewGroup parent, LayoutInflater inflater) {
+        RecyclerView.ViewHolder viewHolder;
+        View v1 = inflater.inflate(R.layout.response_top, parent, false);
+        viewHolder = new TopViewHolder(v1);
+        return viewHolder;
+    }
+
+   /* @Override
     public void onBindViewHolder(@NonNull TopViewHolder topViewHolder, int position) {
         view = topViewHolder;
         articleModel = articleArrayList.get(position);
-        topViewHolder.title.setText(articleModel.getTitle());
-        //  topViewHolder.desc.setText(articleModel.getDescription());
-        // topViewHolder.author.setText("by "+articleModel.getAuthor());
-        // topViewHolder.publishat.setText(articleModel.getPublishedAt());
-        // String imageUrl = articleModel.getUrlToImage();
-        String imageUrl = articleArrayList.get(position).getUrlToImage();
-        // Log.d("imageurl ",imageUrl);
-        // mytask = new DownloadTask().execute(stringToURL(imageUrl));
-        //this.articleModel = articleModel;
+        switch (getItemViewType(position)) {
+            case ITEM:
+                topViewHolder.title.setText(articleModel.getTitle());
+                //  topViewHolder.desc.setText(articleModel.getDescription());
+                // topViewHolder.author.setText("by "+articleModel.getAuthor());
+                // topViewHolder.publishat.setText(articleModel.getPublishedAt());
+                // String imageUrl = articleModel.getUrlToImage();
+                String imageUrl = articleArrayList.get(position).getUrlToImage();
 
 
-        //  Picasso.with(context).load(imageUrl).resize(600, 400).fit().error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
-        Picasso.with(context).load(imageUrl).resize(600, 400).error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
+
+                //  Picasso.with(context).load(imageUrl).resize(600, 400).fit().error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
+                Picasso.with(context).load(imageUrl).resize(600, 400).error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(view.imageView);
+
+                break;
+            case LOADING:
+                //do nothing
+                break;
+        }
 
 
-        // topViewHolder.content.setText(articleModel.getContent());
-        // topViewHolder.artilceAdapterParentLinear.setTag(articleModel);
-
-        // Picasso.with(context).load(imageUrl).placeholder(R.drawable.ic_mtrl_chip_close_circle).into(imageView);
-
-    }
+    }*/
 
 
 
     @Override
     public int getItemCount() {
-        return articleArrayList.size();
+        return articleArrayList == null ?0:articleArrayList.size();
     }
 
 
-    // Custom method to convert string to url
-    protected URL stringToURL(String urlString){
-        try{
-            URL url = new URL(urlString);
-            return url;
-        }catch(MalformedURLException e){
-            e.printStackTrace();
+    @Override
+    public int getItemViewType(int position) {
+        return (position == articleArrayList.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+    }
+
+
+    //Helper methods
+    public void add(Article r) {
+        articleArrayList.add(r);
+        notifyItemInserted(articleArrayList.size() - 1);
+    }
+
+    public void addAll(List<Article> moveResults) {
+        for (Article result : moveResults) {
+            add(result);
         }
-        return null;
     }
 
+    public void remove(Article r) {
+        int position = articleArrayList.indexOf(r);
+        if (position > -1) {
+            articleArrayList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+
+    public void clear() {
+        isLoadingAdded = false;
+        while (getItemCount() > 0) {
+            remove(getItem(0));
+        }
+    }
+
+    public boolean isEmpty() {
+        return getItemCount() == 0;
+    }
+
+
+    public void addLoadingFooter() {
+        isLoadingAdded = true;
+        add(new Article());
+    }
+
+    public void removeLoadingFooter() {
+        isLoadingAdded = false;
+
+        int position = articleArrayList.size() - 1;
+        Article result = getItem(position);
+
+        if (result != null) {
+            articleArrayList.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public Article getItem(int position) {
+        return articleArrayList.get(position);
+    }
+
+
+
+    //ViewHolder classes
     public class TopViewHolder extends RecyclerView.ViewHolder {
         private TextView title,desc,publishat,author;
         public  ImageView imageView;
@@ -151,9 +258,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.TopViewHolder>
 
         }
     }
-   /* public void setOnRecyclerViewItemClickListener(OnRecyclerViewItemClickListener onRecyclerViewItemClickListener) {
-        this.onRecyclerViewItemClickListener = onRecyclerViewItemClickListener;
-    }*/
+
+
+    protected class LoadingVH extends RecyclerView.ViewHolder {
+
+        public LoadingVH(View itemView) {
+            super(itemView);
+        }
+    }
 
 
 

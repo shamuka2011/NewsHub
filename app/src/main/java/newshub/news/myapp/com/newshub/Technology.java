@@ -34,7 +34,6 @@ public class Technology extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String API_KEY ="3fc6be37ed584ba3aef203f2c9269c5d";
 
-    Utility utility = new Utility();
 
     // TODO: Rename and change types of parameters
     private String mParam1;

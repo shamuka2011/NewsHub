@@ -1,16 +1,30 @@
 package newshub.news.myapp.com.newshub;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.Toast;
+
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
+    private static final String API_KEY ="3fc6be37ed584ba3aef203f2c9269c5d";
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setUpNavigationView(navigationView);
 
 
+
         //This is for the Hamburger icon.
         drawerToggle = setupDrawerToggle();
         drawerLayout.addDrawerListener(drawerToggle);
@@ -43,9 +60,70 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.frameContent,new TabFragment()).commit();
         navigationView.setCheckedItem(R.id.top);
         //setTitle("Top");
+
+
+/*
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                Toast.makeText(MainActivity.this,query,Toast.LENGTH_SHORT).show();
+
+                RequestInterface apireq = ApiClient.getClient().create(RequestInterface.class);
+                Call<ResponseModel> call = apireq.getSearchNews(query,API_KEY);
+                call.enqueue(new Callback<ResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                        if (response.body().getStatus().equals("ok")){
+                            List<Article> articleList = response.body().getArticles();
+                            NewsAdapter newsAdapter = new NewsAdapter(articleList);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+
+                    }
+                });
+
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });*/
     }
 
 
+
+
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.searchmenu, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+
+        return true;
+    }
+*/
 
 
 
@@ -54,6 +132,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout =(DrawerLayout) findViewById(R.id.drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         navigationView = (NavigationView) findViewById(R.id.navigationDrawer);
+         //searchView = (MaterialSearchView) findViewById(R.id.search_view);
+
+
     }
 
 
@@ -138,10 +219,16 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case  R.id.action_share:
+                MenuItem searchMenuItem = menu.findItem(R.id.action_share);
+                MenuItemCompat.expandActionView(searchMenuItem);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -162,5 +249,15 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_scrolling, menu);
+        //hideOption(R.id.action_info);
+
+        return true;
+
     }
 }
