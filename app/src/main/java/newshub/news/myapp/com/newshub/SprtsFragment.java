@@ -55,7 +55,7 @@ public class SprtsFragment extends Fragment {
                     // Log.d("response =",response.body().getSourcesList().toString());
                     if (articleList.size() >0) {
                         Log.d("response size =",""+articleList.size());
-                        SportsNewsAdapter adapter1 = new SportsNewsAdapter(articleList);
+                        NewsAdapter adapter1 = new NewsAdapter(articleList);
                         recyclerView.setAdapter(adapter1);
                     }
                 }

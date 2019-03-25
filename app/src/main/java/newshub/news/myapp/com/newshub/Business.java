@@ -88,7 +88,7 @@ public class Business extends Fragment {
                 if (response.body().getStatus().equals("ok")) {
                     List<Article> models = response.body().getArticles();
                     if (models.size()>0) {
-                        BusinessAdapter adapter = new BusinessAdapter(models);
+                        NewsAdapter adapter = new NewsAdapter(models);
                         recyclerView.setAdapter(adapter);
                     }
                 }

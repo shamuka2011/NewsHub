@@ -38,6 +38,7 @@ public class TechNewsAdapter extends RecyclerView.Adapter<TechNewsAdapter.ViewHo
     @NonNull
     @Override
     public TechNewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        context = viewGroup.getContext();
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.response_top, viewGroup, false);
         return new ViewHolder(view);
@@ -45,6 +46,7 @@ public class TechNewsAdapter extends RecyclerView.Adapter<TechNewsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+
         final Article model = sourcesList.get(i);
         viewHolder.title.setText(model.getTitle());
         Picasso.with(context).load(sourcesList.get(i).getUrlToImage()).resize(600, 400).error(R.mipmap.ic_launcher).networkPolicy(NetworkPolicy.NO_CACHE).into(viewHolder.imageView);

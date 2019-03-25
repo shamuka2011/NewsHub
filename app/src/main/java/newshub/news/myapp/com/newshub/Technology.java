@@ -92,7 +92,8 @@ public class Technology extends Fragment {
                     // Log.d("response =",response.body().getSourcesList().toString());
                     if (articleList.size() >0) {
                         Log.d("response size =",""+articleList.size());
-                        TechNewsAdapter adapter1 = new TechNewsAdapter(articleList);
+                      //  TechNewsAdapter adapter1 = new TechNewsAdapter(articleList);
+                        NewsAdapter adapter1 = new NewsAdapter(articleList);
                         recyclerView.setAdapter(adapter1);
                     }
                 }

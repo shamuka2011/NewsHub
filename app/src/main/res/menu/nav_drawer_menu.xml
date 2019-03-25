@@ -11,9 +11,9 @@
         <item
             android:id="@+id/india"
             android:title="@string/text_india"/>
-        <item
+        <!--<item
             android:id="@+id/world"
-            android:title="@string/text_world"/>
+            android:title="@string/text_world"/>-->
         <item
             android:id="@+id/entr"
             android:title="@string/text_entertainment"/>

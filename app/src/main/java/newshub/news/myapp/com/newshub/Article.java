@@ -25,6 +25,20 @@ public class Article implements Parcelable {
     }
 
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "source=" + source +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
     @SerializedName("source")
     private SourceModel source;
     @SerializedName("author")

@@ -91,7 +91,7 @@ public class Science extends Fragment {
                     List<Article> modelList = response.body().getArticles();
                     Log.d("list size",""+modelList.size());
                     if (modelList.size()>0) {
-                        final ScienceAdapter adapter = new ScienceAdapter(modelList);
+                        final NewsAdapter adapter = new NewsAdapter(modelList);
                         recyclerView.setAdapter(adapter);
                     }
                 }

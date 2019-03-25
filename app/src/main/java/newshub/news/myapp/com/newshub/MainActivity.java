@@ -174,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
                 //fragment = new SevenKingdomsFragment();
                 fragment = new TopFragment();
                 break;
-            case R.id.world:
+           /* case R.id.world:
                 // fragment = new CharactersFragment();
                 fragment = new General();
-                break;
+                break;*/
             case R.id.sports:
                 fragment = new SprtsFragment();
                 break;
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This makes sure that the action bar home button that is the toggle button, opens or closes the drawer when tapped.
      */
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (item.getItemId()) {
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
     /**
      * This synchronizes the drawer icon that rotates when the drawer is swiped left or right.
      * Called inside onPostCreate so that it can synchronize the animation again when the Activity is restored.
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_scrolling, menu);
@@ -259,5 +259,5 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
 
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ package newshub.news.myapp.com.newshub;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,12 +14,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -56,8 +59,23 @@ public class ScrollingActivity extends AppCompatActivity implements TextToSpeech
         View rootview = findViewById(R.id.includelayout);
 
          TextView tv = rootview.findViewById(R.id.desc);
-         tv.setText(getIntent().getStringExtra("title")+ "\n\n"+getIntent().getStringExtra("desc") + "\n\n" +getIntent().getStringExtra("content"));
-        result = getIntent().getStringExtra("desc");
+
+         StringBuilder sb = new StringBuilder();
+         if (!(getIntent().getStringExtra("title").equals("null")))
+             sb.append(getIntent().getStringExtra("title"));
+             sb.append(System.getProperty("line.separator"));
+         if (getIntent().getStringExtra("desc").equals("null"))
+             sb.append(System.getProperty("line.separator"));
+        sb.append(System.getProperty("line.separator"));
+             sb.append(getIntent().getStringExtra("desc"));
+         if (!(getIntent().getStringExtra("content").equals("null")))
+             sb.append(System.getProperty("line.separator"));
+        sb.append(System.getProperty("line.separator"));
+            sb.append(getIntent().getStringExtra("content"));
+         String finalStrting = sb.toString();
+
+         tv.setText(finalStrting);
+        finalStrting = getIntent().getStringExtra("desc");
         textToSpeech = new TextToSpeech(this,this);
 
          imageView = findViewById(R.id.expandedImage);
@@ -128,18 +146,22 @@ public class ScrollingActivity extends AppCompatActivity implements TextToSpeech
             }
             return true;
         } else if (id == R.id.action_share) {
-            /*Intent share = new Intent(android.content.Intent.ACTION_SEND);
-            share.setType("text/plain");
-            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
-            // Add data to the intent, the receiving app will decide
-            // what to do with it.
-            share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
-            share.putExtra(Intent.EXTRA_TEXT, intent.getStringExtra("utl"));
-
-            startActivity(Intent.createChooser(share, "Share link!"));*/
             MenuItem searchMenuItem = menu.findItem(R.id.action_share);
             MenuItemCompat.expandActionView(searchMenuItem);
+
+           // Uri imgUri = Uri.parse(pictureFile.getAbsolutePath());
+            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+            whatsappIntent.setType("text/plain");
+            whatsappIntent.putExtra(Intent.EXTRA_TEXT, "Read full story on "+intent.getStringExtra("url"));
+            whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            try {
+               // this.startActivity(whatsappIntent,"share link");
+                this.startActivity(Intent.createChooser(whatsappIntent, "Share link!"));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(this, "Whatsapp have not been installed.", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 

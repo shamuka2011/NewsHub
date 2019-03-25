@@ -33,7 +33,7 @@ public class TabFragment extends Fragment {
 
     private static ViewPager viewPager;
     private static  TabLayout tabLayout;
-    public static int int_items = 6;
+    public static int int_items = 5;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -153,8 +153,8 @@ public class TabFragment extends Fragment {
                 case 1: return new IndiaNews();
                 case 2: return new Technology();
                 case 3: return new SprtsFragment();
-                case 4: return new Local_fragment();
-                case 5: return new Business();
+                //case 4: return new Local_fragment();
+                case 4: return new Business();
             }
             return null;
         }
@@ -182,9 +182,9 @@ public class TabFragment extends Fragment {
                     return "Technology";
                 case 3:
                     return "sports";
+                /*case 4:
+                    return "World";*/
                 case 4:
-                    return "World";
-                case 5:
                     return "Bussiness";
             }
             return null;
